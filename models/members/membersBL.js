@@ -16,3 +16,7 @@ exports.reset = async () => {
 
   MembersModel.insertMany(members);
 };
+
+exports.getAllMembers = async () => {
+  return await membersDAL.getAllMembers();
+};
