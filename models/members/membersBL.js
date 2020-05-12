@@ -17,6 +17,29 @@ exports.reset = async () => {
   MembersModel.insertMany(members);
 };
 
-exports.getAllMembers = async () => {
-  return await membersDAL.getAllMembers();
+exports.getAllMembers = async () => await membersDAL.getAllMembers();
+
+exports.getMemberById = async (id) => await membersDAL.getMemberById(id);
+
+exports.addNewMember = async (member) => {
+  let newMember = new MembersModel(member);
+
+  await newMember.save((err) => {
+    if (err) return err;
+  });
+  return "OK";
+};
+
+exports.updateMember = async (member) => {
+  await MembersModel.updateOne({ _id: member.id }, member, (err) => {
+    if (err) return err;
+  });
+  return "OK";
+};
+
+exports.deleteMember = async (_id) => {
+  await MembersModel.deleteOne({ _id }, (err) => {
+    if (err) return err;
+  });
+  return "OK";
 };

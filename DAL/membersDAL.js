@@ -5,6 +5,6 @@ exports.getMembersWebService = () => {
   return axios.get("https://jsonplaceholder.typicode.com/users");
 };
 
-exports.getAllMembers = () => {
-  return MembersModel.find();
-};
+exports.getAllMembers = () => MembersModel.find();
+
+exports.getMemberById = (_id) => MembersModel.findOne({ _id });
