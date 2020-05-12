@@ -1,20 +1,27 @@
 {
   "name": "movies-and-subscription-server",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Movies and subscriptions CMS - server side with node.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evia-H/movies-and-subscription-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Evia-H/movies-and-subscription-server/issues"
+  },
+  "homepage": "https://github.com/Evia-H/movies-and-subscription-server#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "ejs": "~2.6.1",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jsonfile": "^6.0.1",
+    "express": "^4.17.1",
     "mongoose": "^5.9.13",
-    "morgan": "~1.9.1",
     "nodemon": "^2.0.3"
   }
 }
