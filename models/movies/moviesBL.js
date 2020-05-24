@@ -32,7 +32,7 @@ exports.addNewMovie = async (movie) => {
 };
 
 exports.updateMovie = async (movie) => {
-  await MoviesModel.updateOne({ _id: movie.id }, movie, (err) => {
+  await MoviesModel.updateOne({ _id: movie._id }, movie, (err) => {
     if (err) return err;
   });
   return "OK";
