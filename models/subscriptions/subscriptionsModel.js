@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 let subsriptionSchema = new Schema({
   MemberId: String,
-  Movies: [{ movieId: String, date: Date }],
+  Movies: [],
 });
 
 module.exports = mongoose.model("subscriptions", subsriptionSchema);

@@ -16,8 +16,8 @@ router.route("/user/:id").get(function (req, res, next) {
 });
 
 router.route("/login").post(function (req, res, next) {
-  let { username, password } = req.body;
-  usersBL.login(username, password).then((data) => {
+  let { Username, Password } = req.body;
+  usersBL.login(Username, Password).then((data) => {
     res.json(data);
   });
 });

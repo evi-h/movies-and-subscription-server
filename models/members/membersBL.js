@@ -31,7 +31,7 @@ exports.addNewMember = async (member) => {
 };
 
 exports.updateMember = async (member) => {
-  await MembersModel.updateOne({ _id: member.id }, member, (err) => {
+  await MembersModel.updateOne({ _id: member._id }, member, (err) => {
     if (err) return err;
   });
   return "OK";

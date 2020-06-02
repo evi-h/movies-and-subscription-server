@@ -106,3 +106,25 @@ exports.deleteUser = async (_id) => {
   });
   return "OK";
 };
+
+exports.login = async (Username, Password) => {
+  let user = await UsersModel.find({ Username, Password }, async (err) => {
+    if (err) return err;
+  });
+  if (user.length > 0) {
+    let { users } = await getAllUsers();
+    let { permissions } = await getPermissions();
+
+    let userData = users
+      .filter((u) => u.Username === user.Username)
+      .map((u) => {
+        u.permissions = permissions
+          .filter((per) => per._id === u._id)
+          .map((per) => per.permissions)[0];
+        return u;
+      });
+
+    return userData[0];
+  }
+  return "ERROR";
+};
