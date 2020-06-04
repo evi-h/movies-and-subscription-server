@@ -3,9 +3,9 @@ const UsersModel = require("../users/usersModel");
 const jsonfile = require("jsonfile");
 
 exports.reset = async () => {
-  await UsersModel.deleteMany({ username: { $ne: "admin" } });
-  // jsonfile.writeFile("data/users.json", { users: [] });
-  // jsonfile.writeFile("data/permissions.json", { permissions: [] });
+  await UsersModel.deleteMany({ Username: { $ne: "admin" } });
+  jsonfile.writeFile("data/users.json", { users: [] });
+  jsonfile.writeFile("data/permissions.json", { permissions: [] });
 };
 
 const getAllUsers = (exports.getAllUsers = async () => {
@@ -66,6 +66,15 @@ exports.addNewUser = async (user) => {
 
 exports.updateUser = async (userUpdate) => {
   try {
+    let { username } = userUpdate;
+    await UsersModel.updateOne(
+      { _id: userUpdate._id },
+      { Username: username },
+      (err) => {
+        if (err) return err;
+      }
+    );
+
     let { users } = await getAllUsers();
     let { permissions, ...rest } = userUpdate;
     users = users.filter((user) => user._id != userUpdate._id);
@@ -83,6 +92,19 @@ exports.updateUser = async (userUpdate) => {
     return "OK";
   } catch (err) {
     return err;
+  }
+};
+
+exports.setPassword = async (Username, Password) => {
+  try {
+    await UsersModel.updateOne({ Username }, { Password }, (err) => {
+      if (err) return "ERROR";
+    });
+    let userData = await getUserData(Username);
+
+    return userData;
+  } catch (err) {
+    return "ERROR";
   }
 };
 
@@ -108,23 +130,37 @@ exports.deleteUser = async (_id) => {
 };
 
 exports.login = async (Username, Password) => {
+  if (Username === "admin" && Password === "admin") {
+    let admin = { username: Username, permissions: [] };
+    return admin;
+  }
+
   let user = await UsersModel.find({ Username, Password }, async (err) => {
     if (err) return err;
   });
+
   if (user.length > 0) {
-    let { users } = await getAllUsers();
-    let { permissions } = await getPermissions();
+    if (Password === "") return "password";
 
-    let userData = users
-      .filter((u) => u.Username === user.Username)
-      .map((u) => {
-        u.permissions = permissions
-          .filter((per) => per._id === u._id)
-          .map((per) => per.permissions)[0];
-        return u;
-      });
+    let userData = await getUserData(Username);
 
-    return userData[0];
+    return userData;
   }
   return "ERROR";
+};
+
+const getUserData = async (Username) => {
+  let { users } = await getAllUsers();
+  let { permissions } = await getPermissions();
+
+  let userData = users
+    .filter((u) => u.username === Username)
+    .map((u) => {
+      u.permissions = permissions
+        .filter((per) => per._id === u._id)
+        .map((per) => per.permissions)[0];
+      return u;
+    });
+
+  return userData[0];
 };

@@ -36,6 +36,13 @@ router.route("/update").put(function (req, res, next) {
   });
 });
 
+router.route("/setPassword").put(function (req, res, next) {
+  let { Username, Password } = req.body;
+  usersBL.setPassword(Username, Password).then((response) => {
+    res.json(response);
+  });
+});
+
 router.route("/delete/:id").delete(function (req, res, next) {
   let { id } = req.params;
   usersBL.deleteUser(id).then((data) => {

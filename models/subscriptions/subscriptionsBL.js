@@ -2,6 +2,10 @@ const SubscriptionsModel = require("./subscriptionsModel");
 const subscriptionsDAL = require("../../DAL/subscriptionsDAL");
 const membersBL = require("../members/membersBL");
 
+exports.reset = async () => {
+  await SubscriptionsModel.deleteMany();
+};
+
 exports.getAllSubscriptions = async () => {
   let subscriptions = await subscriptionsDAL.getAllSubscriptions();
   subscriptions = await Promise.all(

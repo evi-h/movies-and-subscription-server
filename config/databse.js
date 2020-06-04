@@ -10,6 +10,7 @@ const db = mongoose.connection;
 
 db.once("open", () => {
   console.log("Connecting to sunscriptionDB succeeded!!!");
-  // moviesBL.reset();
-  // membersBL.reset();
+  moviesBL.reset();
+  membersBL.reset();
+  usersBL.reset();
 });
